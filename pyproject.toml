@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flybrain"
+version = "0.1.0"
+description = "A wiring-constrained fruit-fly connectome (MaleCNS v1.0) as a reusable, domain-agnostic decision engine"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy==2.4.6", "pandas==3.0.5", "pyarrow==25.0.1"
+]
+
+[project.optional-dependencies]
+test = ["pytest==9.1.1"]
+
+[project.scripts]
+flybrain = "flybrain.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["flybrain*"]
+
+[tool.setuptools.package-data]
+flybrain = ["*.cpp", "*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

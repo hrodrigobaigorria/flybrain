@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+build/
+dist/
+.pytest_cache/
+
+# Connectome dataset (graph.npz is 239 MB, above GitHub's limit).
+# Obtain with `flybrain prepare` or set FLYBRAIN_DATA. See README.
+/data/
+
+# Brain checkpoints written by callers.
+/*.npz
