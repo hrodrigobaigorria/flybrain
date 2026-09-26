@@ -19,7 +19,7 @@ SOURCE = Path(__file__).with_name("kernel.cpp")
 LIBRARY = (OUT / "physiology-v6") / (
     "libmemory.dylib" if sys.platform == "darwin" else "libmemory.so"
 )
-MODEL = "stonkfly-dual-compartment-v1"
+MODEL = "flybrain-dual-compartment-v1"
 from .rule import PARAMETERS as RULE_PARAMETERS
 
 PARAMETERS = {
