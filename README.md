@@ -78,6 +78,7 @@ brain.restore("checkpoint.npz")
 | `difference_hz` | right minus left (the signed steering drive) |
 | `gate_spikes` | DNpe017 gate spikes (readout is `straight` if the gate is closed) |
 | `total_spikes`, `KC_spikes`, `reward_spikes`, `aversive_spikes` | spike counts per population |
+| `MBON07_spikes`, `MBON11_spikes` | reward/aversive MBON output — the valence readout downstream of the plastic synapses |
 | `memory` | `plastic_edges`, `changed_edges`, `mean_efficacy`, model id |
 | `brain_ms`, `compute_seconds` | simulated neural time and wall time for the step |
 
@@ -93,6 +94,33 @@ success/failure signal:
 - **Simple real-time control** — react to sensors (avoid obstacles, keep balance).
 - **Learned classification** — label signals (sounds, images, sensor readings) taught by
   rewarded examples.
+
+## Does the memory actually work? — associative conditioning assay
+
+`flybrain/conditioning.py` closes the loop the demo leaves open: it does not just show
+synapses moving, it tests whether they form a *usable, associative* memory.
+
+```sh
+flybrain conditioning            # or: python examples/conditioning.py
+```
+
+Because the reconstructed visual pathway barely reaches the mushroom body (a full-white
+frame fires only ~14 of 4,064 Kenyon cells; a dark one, zero), the assay drives
+Kenyon-cell subsets directly — as optogenetic mushroom-body conditioning does in the real
+fly — and pairs two stimuli with the identified dopamine cells (PAM11 reward → MBON07,
+PPL101 aversive → MBON11). The key is a **2×2 reversal control**: it runs the experiment
+once as A→reward / B→aversive and once reversed, then asks whether pairing a stimulus with
+a dopamine population depresses *that stimulus's own* synapses onto the matching MBON
+compartment more than the opposite pairing does. That difference cancels the background
+depression that recurrent CS→dopamine recruitment produces in both compartments (a naive
+"unpaired" control does not, which is why it is not used).
+
+Result on MaleCNS v1.0 (deterministic, seed 0): **the memory is associative in both
+compartments** — pairing selectively depresses the matched compartment, and reversing the
+pairing reverses the effect. The reward pathway's effect is ~2× the aversive one, an
+honest reflection of the circuit's asymmetry (15 PAM11 reward cells vs 2 PPL101 aversive
+cells). This characterizes what the committed rule and wiring do; it is still not
+validated against fly behaviour.
 
 ## Honest limits
 

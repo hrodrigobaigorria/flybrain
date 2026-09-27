@@ -92,6 +92,10 @@ class FlyController:
             "reward_spikes": int(counts[b.circuit["reward"]].sum()),
             "aversive_spikes": int(counts[b.circuit["aversive"]].sum()),
             "KC_spikes": int(counts[b.circuit["kc"]].sum()),
+            # circuit["mb"] is [MBON07 x4, MBON11 x2] (counts asserted in circuit.identify):
+            # the direct valence readout downstream of the plastic KC->MBON synapses.
+            "MBON07_spikes": int(counts[b.circuit["mb"][:4]].sum()),
+            "MBON11_spikes": int(counts[b.circuit["mb"][4:]].sum()),
             "total_spikes": int(counts.sum()),
             "spike_sha256": hashlib.sha256(counts.tobytes()).hexdigest(),
             "input_sha256": hashlib.sha256(np.asarray(rgb).tobytes()).hexdigest(),

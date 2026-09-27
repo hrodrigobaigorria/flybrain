@@ -11,6 +11,8 @@ def main():
     sub.add_parser("prepare", help="Download + compile the full dataset (needs source files)")
     d = sub.add_parser("demo", help="Run a non-trading visual stimulus demo")
     d.add_argument("--observations", type=int, default=4)
+    k = sub.add_parser("conditioning", help="Associative conditioning assay (does memory form?)")
+    k.add_argument("--epochs", type=int, default=8)
     a = p.parse_args()
 
     if a.command == "verify":
@@ -25,6 +27,10 @@ def main():
         from .demo import run
 
         run(a.observations)
+    elif a.command == "conditioning":
+        from .conditioning import run
+
+        run(epochs=a.epochs)
 
 
 if __name__ == "__main__":

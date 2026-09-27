@@ -68,3 +68,18 @@ def test_full_graph_stimulus_and_memory(tmp_path):
     c.observe(white, "reward")
     assert np.array_equal(before, c.brain.weight[c.brain.circuit["edges"]])
     assert np.isfinite(c.brain.weight).all()
+
+
+@pytest.mark.skipif(
+    os.environ.get("FLYBRAIN_FULL_TEST") != "1",
+    reason="Loads the full 166k-neuron graph; slow integration test",
+)
+def test_conditioning_forms_associative_memory():
+    from flybrain.conditioning import run
+
+    # Reversal control: pairing a stimulus with a dopamine population must depress ITS
+    # matching MBON compartment more than pairing it with the other population does.
+    effect = run(epochs=3, verbose=False)["pairing_effect"]
+    for name in ("A", "B"):
+        assert effect[name]["reward_pairing_on_reward_edges"] > 1e-3
+        assert effect[name]["aversive_pairing_on_aversive_edges"] > 1e-3
