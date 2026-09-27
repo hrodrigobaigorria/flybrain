@@ -152,3 +152,9 @@ upstream license. The neural mechanism and provenance mirror the original stonkf
 python -m pytest -q                    # fast unit tests (decoder + memory rule)
 FLYBRAIN_FULL_TEST=1 python -m pytest  # also runs the full 166k-neuron integration test
 ```
+
+## License
+
+The code in this repository is released under the MIT License (see `LICENSE`). The
+MaleCNS v1.0 connectome dataset it consumes is **not** covered by that license and remains
+under its own upstream terms — see [Data and provenance](#data-and-provenance).
